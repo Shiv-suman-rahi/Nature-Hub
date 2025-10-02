@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nature Hub - Home</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      color: #fff;
+      background: linear-gradient(to top, #001f3f, #004d40);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+     body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  background: linear-gradient(to top, #001f3f, #004d40);
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #00e676;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  position: relative;
+  padding: 5px;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background: #00e676;
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: #00e676;
+}
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  padding-top: 70px;
+}
+
+.hero h1 {
+  font-size: 60px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00e676, 0 0 20px #00e676;
+  animation: glow 3s infinite alternate;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-top: 15px;
+  max-width: 600px;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00e676, 0 0 20px #00e676;
+  }
+  to {
+    text-shadow: 0 0 20px #76ff03, 0 0 40px #00e676;
+  }
+}
+
+/* Animal silhouette animation */
+.animal {
+  position: absolute;
+  bottom: 100px;
+  left: -200px;
+  width: 180px;
+  opacity: 0.8;
+  animation: walk 20s linear infinite;
+}
+
+@keyframes walk {
+  0% { left: -200px; }
+  100% { left: 110%; }
+}
+
+/* Plant swaying animation */
+.plant {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  width: 120px;
+  animation: sway 4s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg); }
+}
+
+/* Water ripple animation */
+.water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: rgba(1, 255, 230, 0.7);
+  animation: wave 6s ease-in-out infinite;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* -------------------
+   RESPONSIVE DESIGN
+------------------- */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 48px;
+  }
+  .hero p {
+    font-size: 18px;
+    max-width: 500px;
+  }
+  .plant {
+    width: 90px;
+  }
+  .animal {
+    width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+  nav {
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  .hero h1 {
+    font-size: 36px;
+  }
+  .hero p {
+    font-size: 16px;
+    padding: 0 15px;
+  }
+  .plant {
+    width: 70px;
+  }
+  .animal {
+    width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 24px;
+  }
+  .hero h1 {
+    font-size: 28px;
+  }
+  .hero p {
+    font-size: 14px;
+  }
+  nav a {
+    font-size: 14px;
+  }
+  .plant {
+    width: 60px;
+  }
+  .animal {
+    width: 100px;
+  }
+  .water {
+    height: 90px;
+  }
+}
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      margin-left: 50px;
+      font-size: 40px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #00e676;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      position: relative;
+      padding: 5px;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background: #00e676;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00e676;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100vh;
+      flex-direction: column;
+      padding-top: 70px;
+    }
+
+    .hero h1 {
+      font-size: 60px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px #00e676, 0 0 20px #00e676;
+      animation: glow 3s infinite alternate;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-top: 15px;
+      max-width: 600px;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #00e676, 0 0 20px #00e676;
+      }
+      to {
+        text-shadow: 0 0 20px #76ff03, 0 0 40px #00e676;
+      }
+    }
+
+    /* Animal silhouette animation */
+    .animal {
+      position: absolute;
+      bottom: 100px;
+      left: -200px;
+      width: 180px;
+      opacity: 0.8;
+      animation: walk 20s linear infinite;
+    }
+
+    @keyframes walk {
+      0% { left: -200px; }
+      100% { left: 110%; }
+    }
+
+    /* Plant swaying animation */
+    .plant {
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+      width: 120px;
+      animation: sway 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes sway {
+      from { transform: rotate(-5deg); }
+      to { transform: rotate(5deg); }
+    }
+
+    /* Water ripple animation */
+    .water {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: rgba(1, 255, 230, 0.7);
+      animation: wave 6s ease-in-out infinite;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">🌍 Nature Hub</div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="plant.html">Plants</a>
+      <a href="animal.html">Animals</a>
+      <a href="#">Microorganisms</a>
+      
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Nature Hub</h1>
+    <p>🌿 Explore the magical world of Plants, 🐾 encounter wild Animals, and discover fascinating Microorganisms. Dive into the Jurassic vibes with us!</p>
+  </section>
+
+  <!-- Plant Animation -->
+  <img src="animals.png" alt="Plant" class="plant" style="width: 400px; position: fixed; margin-left: 75%;">
+
+  <!-- Animal Animation -->
+  <img src="run.png" alt="Animal" class="animal" style="width:220px;">
+
+  <!-- Water Animation -->
+  <div class="water"></div>
+
+</body>
+</html>

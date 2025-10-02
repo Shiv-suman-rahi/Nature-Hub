@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plants Header</title>
+  <style>
+
+    
+    /* Header container */
+    header {
+      top: 0;
+      z-index: 10;
+      position: sticky;
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      height: 70px;
+      background: linear-gradient(135deg, #025bba, #0cad15, #0cb2cf);
+      color: white;
+      font-family: "Poppins", sans-serif;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      position: relative;
+      padding: 4px;
+      transition: color 0.3s ease;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    nav a:hover {
+      color: #c8facc;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Search bar */
+    .search-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 5px 8px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    .search-bar button {
+      background: #2E7D32;
+      border: none;
+      color: rgb(90, 197, 142);
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .search-bar button:hover {
+      background: #1f6623;
+    }
+
+    /* Suggestions dropdown */
+    .suggestions {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+    }
+    .suggestions div {
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #000000;
+      transition: background 0.2s;
+    }
+    .suggestions div:hover {
+      background: #e6f7e6;
+    }
+
+    body {
+      background-image: url(https://media.istockphoto.com/id/936394272/vector/natural-pattern-abstract-curve-shape-leaf-green-colour-background.jpg?s=612x612&w=0&k=20&c=1bBeapRNkXKDx3IQzt9mJIlnzY2XGroaRQePwC45GoA=);
+    }
+
+    .plant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+      gap: 30px;
+      padding: 30px;
+    }
+
+    .plant-card {
+      background: linear-gradient(365deg,rgb(86, 85, 85),rgb(127, 200, 161),rgb(117, 160, 117));
+      /* background: #f9f9f9; */
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+      text-align: center;
+      padding: 20px;
+      width: 450px;
+      height: 400px;
+      margin:auto;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: floatBox 4s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .plant-card img {
+      width: 80%;
+      height: auto;
+      border-radius: 12px;
+      margin: 0 auto 15px;
+    }
+
+    .plant-card h3 {
+      font-size: 20px;
+      color: #2E7D32;
+      margin: 2px 0;
+    }
+
+    .plant-card p {
+      font-size: 14px;
+      color: #000000;
+      margin: 10px 0 20px;
+      line-height: 1.4;
+    }
+
+    .learn-btn {
+      width: 60%;
+      margin-left: 15%;
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 14px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .learn-btn:hover {
+      background: linear-gradient(135deg, #66BB6A, #388E3C);
+      transform: scale(1.05);
+    }
+
+    .plant-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 23px rgba(0,0,0,0.25);
+    }
+
+    @keyframes floatBox {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    #noResults {
+      font-weight: bold;
+      background: #ffeaea;
+      border: 1px solid #f5c2c2;
+      display: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      width: fit-content;
+      margin: 20px auto;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🌱 Plants</div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#">Water Plants</a>
+      <a href="#">Micro Plants</a>
+      <a href="#">Herbal</a>
+      <a href="#">Indoor</a>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search plants...">
+      <button onclick="searchPlants()">🔍</button>
+      <div class="suggestions" id="suggestions">
+      </div>
+      <div class="suggestions" id="suggestions">
+      </div>
+      <div class="suggestions" id="suggestions">
+      </div>
+    </div>
+  </header>
+
+  <!-- Plant Grid Section -->
+  <section class="plant-grid">
+    <div class="plant-card">
+      <img src="https://media.post.rvohealth.io/wp-content/uploads/sites/3/2025/04/aloe-vera-GettyImages-1473547826-Header-1024x575.jpg" alt="Aloe Vera">
+      <h3>Aloe Vera</h3>
+      <p>Aloe Vera is a succulent plant species used for medicine and skin care.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="plant-card">
+      <img src="https://static.vecteezy.com/system/resources/previews/028/635/905/non_2x/green-bamboo-texture-bamboo-forest-green-grass-in-the-sunshine-bamboo-tree-leaf-plant-stem-ai-generated-photo.jpg" alt="Bamboo">
+      <h3>Bamboo</h3>
+      <p>Bamboo is a fast-growing plant known for its strength and eco-friendliness.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="plant-card">
+      <img src="Cactus-1-scaled.webp" alt="Cactus">
+      <h3>Cactus</h3>
+      <p>Cactus plants are drought-resistant and thrive in desert conditions.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+    <div class="plant-card">
+      <img src="https://i.pinimg.com/736x/7a/6d/b7/7a6db7ce26b72f65542d3d70d7426ecd.jpg" alt="Fern">
+      <h3>Fern</h3>
+      <p>Ferns are ancient plants with lush green leaves, often grown indoors.</p>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+  </section>
+
+  <p id="noResults">❌ No plants found!</p>
+
+  <script>
+    function searchPlants() {
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let cards = document.querySelectorAll(".plant-card");
+      let noResults = document.getElementById("noResults");
+      let suggestions = document.getElementById("suggestions");
+
+      let found = false;
+      suggestions.innerHTML = "";
+
+      cards.forEach(card => {
+        let name = card.querySelector("h3").innerText.toLowerCase();
+        let info = card.querySelector("p").innerText.toLowerCase();
+
+        if (name.includes(input) || info.includes(input)) {
+          card.style.display = "flex";
+          found = true;
+
+          // add suggestion
+          if (input.trim() !== "" && name.includes(input)) {
+            let suggestionItem = document.createElement("div");
+            suggestionItem.textContent = card.querySelector("h3").innerText;
+            suggestionItem.onclick = () => {
+              document.getElementById("searchInput").value = card.querySelector("h3").innerText;
+              suggestions.style.display = "none";
+              searchPlants();
+            };
+            suggestions.appendChild(suggestionItem);
+          }
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // Show/hide no results
+      noResults.style.display = (!found && input.trim() !== "") ? "block" : "none";
+
+      // Show/hide suggestions
+      suggestions.style.display = (suggestions.innerHTML !== "" && input.trim() !== "") ? "block" : "none";
+
+      // Reset if input empty
+      if (input.trim() === "") {
+        cards.forEach(card => card.style.display = "flex");
+        noResults.style.display = "none";
+        suggestions.style.display = "none";
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("keyup", searchPlants);
+  </script>
+
+</body>
+</html>

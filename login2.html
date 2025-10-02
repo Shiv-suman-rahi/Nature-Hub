@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nature Hub.com</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Permanent+Marker&family=Tagesschrift&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      font-family: 'Permanent Marker', cursive;
+    }
+
+    .navdiv {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+    }
+
+    .logo a {
+      font-size: 26px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .navdiv ul {
+      display: flex;
+      list-style: none;
+    }
+
+    .navdiv ul li {
+      margin-left: 30px;
+    }
+
+    .navdiv ul li a {
+      text-decoration: none;
+      font-size: 18px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .navdiv ul li a:hover {
+      color: #ffeb3b;
+    }
+
+    /* Background video */
+    .Background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Login box */
+    .logdiv {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      padding: 40px;
+      border-radius: 15px;
+      border: 1px solid  black;
+      box-shadow: 5px 5px 5px black;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      width: 350px;
+      animation: floatBox 4s ease-in-out infinite;
+    }
+
+    .logdiv label {
+      font-size: 50px;
+      font-weight: bold;
+      color: black;
+    }
+
+    /* Input fields */
+    .inputbox input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 15px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .inputbox input:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 8px rgba(46,125,50,0.6);
+    }
+
+    /* Login button */
+    .login-btn {
+      margin-top: 20px;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(135deg, #66bb6a, #388e3c);
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Floating animation */
+    @keyframes floatBox {
+      0% { transform: translate(-50%, -50%) translateY(0); }
+      50% { transform: translate(-50%, -50%) translateY(-10px); }
+      100% { transform: translate(-50%, -50%) translateY(0); }
+    }
+    @media (max-width: 600px) {
+  .logdiv {
+    width: 90%;
+    padding: 20px;
+  }
+  .logdiv label {
+    font-size: 36px;
+  }
+  .inputbox input {
+    font-size: 14px;
+    padding: 10px;
+  }
+  .login-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+  .navdiv {
+    flex-direction: column;
+    padding: 10px 20px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navdiv">
+      <div class="logo"><a href="#">Nature Hub</a></div>
+      <!-- <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="plant.html">Plant's</a></li>
+        <li><a href="animal.html">Animal's</a></li>
+        <li><a href="#">Micro Organism</a></li>
+      </ul> -->
+    </div>
+  </nav>
+
+  <!-- Background Video -->
+  <video autoplay loop muted class="Background">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <!-- Login Box -->
+  <div class="logdiv">
+    <label for="Lable">Login</label><br>
+    <div class="inputbox">
+      <input type="email" placeholder="E-Mail ID" id="inbox" required><br><br>
+      <input type="password" placeholder="Password" id="inbox" required>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+</body>
+<script>
+  // Simple login validation
+  document.querySelector(".login-btn").addEventListener("click", function() {
+    let email = document.querySelector("input[type='email']").value;
+    let password = document.querySelector("input[type='password']").value;
+
+    // Hardcoded credentials (you can change them)
+    let validEmail = "shiv@6287.com";
+    let validPassword = "12345";
+
+    if (email === validEmail && password === validPassword) {
+      alert("✅ Login Successful! Redirecting...");
+      window.location.href = "index.html"; // Redirect page
+    } else {
+      alert("❌ Invalid Email or Password!");
+    }
+  });
+</script>
+
+</html>

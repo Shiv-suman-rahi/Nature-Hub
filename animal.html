@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animals</title>
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> -->
+  <style>
+    
+    /* Responsive Animal Grid */
+.animal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+/* Animal cards adjust automatically */
+.animal-card {
+  width: 100%;               /* no fixed width */
+  max-width: 450px;          /* cap the size on large screens */
+  height: auto;              /* let height adjust */
+  margin: auto;
+  padding: 20px;
+}
+
+/* Images scale properly */
+.animal-card img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Media Queries for extra polish */
+@media (max-width: 1024px) {
+  header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px;
+  }
+  nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .search-bar {
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .animal-card h3 {
+    font-size: 22px;
+  }
+  .animal-card p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  nav {
+    width: 100%;
+    justify-content: space-around;
+  }
+  .search-bar {
+    width: 100%;
+  }
+  .animal-card {
+    padding: 15px;
+  }
+}
+
+    /* Header */
+    header {
+      top: 0;
+      z-index: 10;
+      position: sticky;
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      height: 70px;
+      /* background: linear-gradient(135deg, #ff7e5f, #feb47b, #ffcc70); */
+      background: rgba(19, 82, 25, 0.6);/*It gives the trnsparent color */
+      color: white;
+      font-family: "Poppins", sans-serif;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      position: relative;
+      padding: 4px;
+      transition: color 0.3s ease;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    nav a:hover {
+      color: #ffe4c4;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Search bar */
+    .search-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 5px 8px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    .search-bar button {
+      background: #ff7043;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .search-bar button:hover {
+      background: #e64a19;
+    }
+
+    /* Suggestions */
+    .suggestions {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+    }
+    .suggestions div {
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .suggestions div:hover {
+      background: #ffe0cc;
+    }
+
+    /* Background */
+    body {
+      
+      background-image: url(https://thumbnail.imgbin.com/15/22/6/world-wildlife-day-diverse-wild-animals-in-jungle-EkTrhDcq_t.jpg);
+      /* background-size: cover; */
+      background-attachment: fixed;
+      margin: 0;
+      overflow-x: hidden;
+      background-repeat: repeat;
+    }
+
+    /* Animal grid */
+    .animal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+      gap: 30px;
+      padding: 30px;
+    }
+    .animal-card {
+      background: #fff9f0;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+      background: linear-gradient(365deg,black,rgb(135, 135, 210),rgb(117, 160, 117));
+      text-align: center;
+      padding: 20px;
+      width: 450px;
+      height: 450px;
+      margin: auto;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: floatBox 5s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+       justify-content: space-between; 
+    }
+    .animal-card img {
+      width: 70%;
+      height: auto;
+      border-radius: 12px;
+      margin: 0 auto 15px;
+      /* animation: bounceAnimal 8s infinite; */
+    }
+    .animal-card h3 {
+      font-size: 20px;
+      color: #ff5722;
+      margin: 8px 0;
+      font-size:30px;
+      font-family: "Dancing Script", cursive;
+      font-optical-sizing: auto;
+      font-weight: <weight>;
+      font-style: normal;
+    }
+    .animal-card p {
+      font-size: 14px;
+      color: #000000;
+      margin: 10px 0 20px;
+      line-height: 1.4;
+    }
+    .learn-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff7043, #ff5722);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 14px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .learn-btn:hover {
+      background: linear-gradient(135deg, #ff8a65, #f4511e);
+      transform: scale(1.05);
+    }
+    .animal-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 28px rgba(0,0,0,0.25);
+    }
+
+    /* Animations */
+    @keyframes floatBox {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes bounceAnimal {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Floating icons */
+    .floating-icon {
+      position: absolute;
+      width: 60px;
+      opacity: 0.8;
+      animation: moveAcross 20s linear infinite;
+    }
+    @keyframes moveAcross {
+      from { transform: translateX(-100px) translateY(0); }
+      to   { transform: translateX(110vw) translateY(-50px); }
+    }
+
+    #noResults {
+      font-weight: bold;
+      background: #ffeaea;
+      border: 1px solid #f5c2c2;
+      display: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      width: fit-content;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🐾 Animals</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#">Wild</a>
+      <a href="#">Pets</a>
+      <a href="#">Birds</a>
+      <a href="water.html">Aquatic</a>
+    </nav>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search animals...">
+      <button onclick="searchAnimals()">🔍</button>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+  </header>
+
+  <!-- Floating icons -->
+  <img src="flying.png" class="floating-icon" style="top:100px; animation-duration:25s;">
+  <img src="duck.png" class="floating-icon" style="top:200px; animation-duration:30s;">
+  <img src="snail.png" class="floating-icon" style="top:300px; animation-duration:35s;">
+
+  <!-- Animal Grid -->
+  <section class="animal-grid">
+    <div class="animal-card">
+      <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2lsZGxpZmV8ZW58MHx8MHx8fDA%3D" alt="Lion">
+      <h3>Lion</h3>
+      <ul>
+        <li><p>The lion is known as the king of the jungle, symbol of strength and courage.</p></li>
+      </ul>
+  
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://images.theconversation.com/files/62656/original/nrtfqxhv-1414079052.jpg?ixlib=rb-4.1.0&q=45&auto=format&w=926&fit=clip" alt="Elephant">
+      <h3>Elephant</h3>
+      <ul>Elephants are the largest land animals, famous for their intelligence and memory.</ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2dldHR5aW1hZ2VzLTEzMTQ4NTU5MS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjgyOH19fQ==" alt="Tiger">
+      <h3>Tiger</h3>
+      <ul>
+    <li>The tiger is the largest big cat, known for its power, stealth, and striking orange coat with black stripes.</li>
+    </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card">
+      <img src="https://static.scientificamerican.com/dam/m/5d9b9c607243196d/original/2505_SQ_FRI_AI_DOLPHINS-Art.png?m=1747946433.981&crop=4%3A3%2Csmart&w=1200" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Dolphins are intelligent aquatic mammals known for their playful behavior.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+  </section>
+
+  <p id="noResults">❌ No animals found!</p>
+
+  <script>
+  function searchAnimals() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    let cards = document.querySelectorAll(".animal-card");
+    let noResults = document.getElementById("noResults");
+    let suggestions = document.getElementById("suggestions");
+
+    let found = false;
+    suggestions.innerHTML = "";
+
+    cards.forEach(card => {
+      let name = card.querySelector("h3").innerText.toLowerCase();
+      let info = card.innerText.toLowerCase(); // check all text inside the card
+
+      if (name.includes(input) || info.includes(input)) {
+        card.style.display = "flex";
+        found = true;
+
+        // Add suggestion if matching by name
+        if (input && name.includes(input)) {
+          let suggestionItem = document.createElement("div");
+          suggestionItem.textContent = card.querySelector("h3").innerText;
+          suggestionItem.onclick = () => {
+            document.getElementById("searchInput").value = card.querySelector("h3").innerText;
+            suggestions.style.display = "none";
+            searchAnimals();
+          };
+          suggestions.appendChild(suggestionItem);
+        }
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    noResults.style.display = (!found && input) ? "block" : "none";
+    suggestions.style.display = (suggestions.innerHTML && input) ? "block" : "none";
+
+    if (!input) {
+      cards.forEach(card => card.style.display = "flex");
+      noResults.style.display = "none";
+      suggestions.style.display = "none";
+    }
+  }
+
+  // Run search on typing
+  document.getElementById("searchInput").addEventListener("keyup", searchAnimals);
+
+  // Press Enter to auto-select first suggestion
+  document.getElementById("searchInput").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      let suggestions = document.getElementById("suggestions");
+      let firstSuggestion = suggestions.querySelector("div");
+      if (firstSuggestion) {
+        this.value = firstSuggestion.textContent;
+        suggestions.style.display = "none";
+        searchAnimals();
+        event.preventDefault(); // prevent form submission / reload
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>

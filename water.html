@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Animals</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(to bottom, #1e3c72, #2a5298, #00c6ff);
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+      position: relative;
+      color: white;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      height: 70px;
+      background: rgba(0, 0, 50, 0.6);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+    nav { display: flex; gap: 20px; }
+    nav a {
+      color: white; text-decoration: none; font-size: 15px; position: relative; padding: 4px;
+      cursor: pointer;
+    }
+    nav a::after {
+      content: ""; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: white; transition: width 0.3s ease;
+    }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: #a2dfff; }
+
+    /* Search bar */
+    .search-bar {
+      text-align: center;
+      margin: 20px;
+      position: relative;
+    }
+    #searchInput {
+      padding: 10px;
+      width: 60%;
+      border: none;
+      border-radius: 20px;
+      outline: none;
+      font-size: 16px;
+    }
+    #suggestions {
+      position: absolute;
+      top: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      width: 60%;
+      border-radius: 8px;
+      display: none;
+      z-index: 20;
+    }
+    #suggestions div {
+      padding: 8px;
+      cursor: pointer;
+    }
+    #suggestions div:hover, #suggestions .active {
+      background: #e0f7ff;
+    }
+    #noResults {
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+      font-size: 18px;
+      color: yellow;
+    }
+
+    /* Animal grid */
+    .animal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 30px;
+      padding: 30px;
+    }
+    .animal-card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+      text-align: center;
+      padding: 20px;
+      width: 400px;
+      height: 450px;
+      margin: auto;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: floatBox 5s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .animal-card img {
+      width: 55%;
+      border-radius: 12px;
+      margin: 0 auto 15px;
+      animation: swim 3s infinite ease-in-out;
+    }
+    .animal-card h3 { font-size: 28px; color: #005b96; }
+    .animal-card ul { text-align: left; font-size: 14px; color: #000; line-height: 1.5; }
+    .learn-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .learn-btn:hover { transform: scale(1.05); }
+
+    @keyframes floatBox {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes swim {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+    }
+
+    /* Bubble animation */
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: rise 10s infinite ease-in;
+    }
+    @keyframes rise {
+      from { transform: translateY(0) scale(0.5); opacity: 1; }
+      to { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+    /* Navbar ripple effect */
+nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+nav a::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
+nav a.ripple::before {
+  animation: rippleEffect 0.6s ease-out;
+}
+
+@keyframes rippleEffect {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🌊 Water Animals</div>
+    <nav>
+      <a onclick="filterCategory('all')">All</a>
+      <a onclick="filterCategory('small')">Small</a>
+      <a onclick="filterCategory('big')">Big</a>
+      <a onclick="filterCategory('dangerous')">Dangerous</a>
+      <a onclick="filterCategory('friendly')">Friendly</a>
+    </nav>
+  </header>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for water animals...">
+    <div id="suggestions"></div>
+    <div id="noResults">No animals found 🐟</div>
+  </div>
+
+  <!-- Animal Grid -->
+  <section class="animal-grid">
+    <div class="animal-card" data-category="friendly small">
+      <img src="https://media.licdn.com/dms/image/v2/D5612AQETRs5tkruC_g/article-cover_image-shrink_720_1280/B56ZY6Jv9SGsAM-/0/1744732356879?e=2147483647&v=beta&t=KlFJweLs54aFmgi-LpK_mx4vbDpq4HZHlakdatY0aOc" alt="Dolphin">
+      <h3>Dolphin</h3>
+      <ul>
+        <li>Highly intelligent and social marine mammals.</li>
+        <li>Known for playful behavior and echolocation ability.</li>
+        <li>Often called “friends of the sea.”</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card" data-category="big dangerous">
+      <img src="https://www.nhm.ac.uk/content/dam/nhm-www/discover/megalodon/megalodon_warpaint_shutterstock-full-width.jpg" alt="Shark">
+      <h3>Shark</h3>
+      <ul>
+        <li>Top predator of the ocean.</li>
+        <li>Over 500 species exist.</li>
+        <li>Vital role in marine ecosystems.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card" data-category="big friendly">
+      <img src="https://masterliveaboards.com/wp-content/uploads/2021/04/sea-turltes-facts-gallery-03.jpg" alt="Sea Turtle">
+      <h3>Sea Turtle</h3>
+      <ul>
+        <li>Ancient reptiles that can live over 80 years.</li>
+        <li>Known for long migrations.</li>
+        <li>Threatened by pollution and climate change.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+    <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+ <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+     <div class="animal-card" data-category="small friendly">
+      <img src="https://scitechdaily.com/images/Clownfish-Concept-Art-777x518.jpg" alt="Clownfish">
+      <h3>Clownfish</h3>
+      <ul>
+        <li>Small colorful fish living in sea anemones.</li>
+        <li>Famously featured in “Finding Nemo.”</li>
+        <li>Symbiotic relationship with their hosts.</li>
+      </ul>
+      <a href="#" class="learn-btn">Learn More</a>
+    </div>
+
+  </section>
+
+  <!-- Scripts -->
+  <script>
+    // Bubble generator
+    function createBubble() {
+      const bubble = document.createElement("div");
+      const size = Math.random() * 30 + 10;
+      bubble.classList.add("bubble");
+      bubble.style.width = size + "px";
+      bubble.style.height = size + "px";
+      bubble.style.left = Math.random() * window.innerWidth + "px";
+      bubble.style.animationDuration = (Math.random() * 5 + 5) + "s";
+      document.body.appendChild(bubble);
+      setTimeout(() => bubble.remove(), 10000);
+    }
+    setInterval(createBubble, 600);
+
+    // Search logic (same as before)
+    let selectedIndex = -1;
+    function searchAnimals() {
+      let input = document.getElementById("searchInput").value.toLowerCase().trim();
+      let cards = document.querySelectorAll(".animal-card");
+      let noResults = document.getElementById("noResults");
+      let suggestions = document.getElementById("suggestions");
+      let found = false;
+      suggestions.innerHTML = "";
+      selectedIndex = -1;
+
+      cards.forEach(card => {
+        let name = card.querySelector("h3").innerText.toLowerCase();
+        let info = card.innerText.toLowerCase();
+        if (name.includes(input) || info.includes(input)) {
+          card.style.display = "flex";
+          found = true;
+          if (input && name.includes(input)) {
+            let suggestionItem = document.createElement("div");
+            suggestionItem.textContent = card.querySelector("h3").innerText;
+            suggestionItem.onclick = () => {
+              document.getElementById("searchInput").value = card.querySelector("h3").innerText;
+              suggestions.style.display = "none";
+              searchAnimals();
+            };
+            suggestions.appendChild(suggestionItem);
+          }
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResults.style.display = (!found && input) ? "block" : "none";
+      suggestions.style.display = (suggestions.innerHTML && input) ? "block" : "none";
+      if (!input) {
+        cards.forEach(card => card.style.display = "flex");
+        noResults.style.display = "none";
+        suggestions.style.display = "none";
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("keyup", searchAnimals);
+
+    // Enter + Arrow navigation
+    document.getElementById("searchInput").addEventListener("keydown", function (event) {
+      let suggestions = document.getElementById("suggestions").querySelectorAll("div");
+      if (event.key === "ArrowDown") {
+        selectedIndex = (selectedIndex + 1) % suggestions.length;
+      } else if (event.key === "ArrowUp") {
+        selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+      } else if (event.key === "Enter") {
+        if (suggestions[selectedIndex]) {
+          this.value = suggestions[selectedIndex].textContent;
+          document.getElementById("suggestions").style.display = "none";
+          searchAnimals();
+          event.preventDefault();
+        }
+      }
+      suggestions.forEach((s, i) => s.classList.toggle("active", i === selectedIndex));
+    });
+
+    // Category filter
+    function filterCategory(category) {
+      let cards = document.querySelectorAll(".animal-card");
+      cards.forEach(card => {
+        if (category === "all" || card.dataset.category.includes(category)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // Ripple effect on navbar click
+document.querySelectorAll("nav a").forEach(link => {
+  link.addEventListener("click", function (e) {
+    this.classList.remove("ripple"); // reset if clicked again quickly
+    void this.offsetWidth; // reflow trick
+    this.classList.add("ripple");
+  });
+});
+
+
+    }
+  </script>
+
+</body>
+</html>
